@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { SimplePool } from "nostr-tools";
 import { Event } from "nostr-tools/lib/types/core";
+import NotesList from "./Components/NotesList/NotesList";
 import "./App.scss";
 
 export const RELAYS = ["wss://nostr-pub.wellorder.net", "wss://relay.damus.io"];
@@ -44,7 +45,20 @@ const App = () => {
     return () => {};
   }, [pool]);
 
-  return <div className="App"> Hello!</div>;
+  const removeLinks = (events: Event[]) => {
+    return events.filter(
+      (event) =>
+        event.content.indexOf("https") === -1 &&
+        event.content.indexOf("nostr:") === -1
+    );
+  };
+
+  return (
+    <div id="app">
+      <h2>App</h2>
+      <NotesList notes={removeLinks(events)} />
+    </div>
+  );
 };
 
 export default App;
