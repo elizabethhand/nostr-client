@@ -4,3 +4,11 @@ export type Metadata = {
   picture: string;
   nip05: string;
 };
+
+declare global {
+  interface Window {
+    nostr: Record<string, any>;
+  }
+}
+
+window.nostr = window.nostr || {};
