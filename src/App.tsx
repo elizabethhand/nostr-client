@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SimplePool } from "nostr-tools";
 import { Event } from "nostr-tools/lib/types/core";
+import { Metadata } from "./types";
 import NotesList from "./Components/NotesList/NotesList";
 import "./App.scss";
 
@@ -9,6 +10,8 @@ export const RELAYS = ["wss://nostr-pub.wellorder.net", "wss://relay.damus.io"];
 const App = () => {
   const [pool, setPool] = useState<SimplePool | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
+  const [metadata, setMetadata] = useState<Record<string, Metadata>>({});
+  const metadataFetched = useRef<Record<string, boolean>>({});
 
   // setup relays pool
   useEffect(() => {
@@ -46,6 +49,41 @@ const App = () => {
 
     return () => {};
   }, [pool]);
+
+  // get user data for events
+  useEffect(() => {
+    if (!pool) return;
+
+    const pubKeysToFetch = events
+      .filter((event) => metadataFetched.current[event.pubkey] !== true)
+      .map((event) => event.pubkey);
+
+    pubKeysToFetch.forEach(
+      (pubkey) => (metadataFetched.current[pubkey] = true)
+    );
+
+    const sub = pool.subscribeMany(
+      RELAYS,
+      [
+        {
+          kinds: [0],
+          authors: pubKeysToFetch,
+        },
+      ],
+      {
+        onevent(event: Event) {
+          const metadata = JSON.parse(event.content);
+          setMetadata((cur) => ({
+            ...cur,
+            [event.pubkey]: metadata,
+          }));
+        },
+        oneose() {
+          sub.close();
+        },
+      }
+    );
+  }, [events, pool]);
 
   const removeLinks = (events: Event[]) => {
     return events.filter(
