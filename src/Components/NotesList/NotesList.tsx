@@ -10,7 +10,14 @@ const NotesList = ({ notes }: Props) => {
     <div id="note-list">
       {notes &&
         notes.map((note) => {
-          return <NoteCard key={note.id} id={note.id} content={note.content} />;
+          return (
+            <NoteCard
+              key={note.id}
+              id={note.id}
+              content={note.content}
+              hashtags={note.tags.filter((t) => t[0] === "t").map((t) => t[1])}
+            />
+          );
         })}
     </div>
   );

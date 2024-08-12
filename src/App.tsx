@@ -30,6 +30,8 @@ const App = () => {
         {
           kinds: [1],
           limit: 100,
+          // example filter
+          // "#t": ["Nostr"],
         },
       ],
       {
