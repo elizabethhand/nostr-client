@@ -3,6 +3,7 @@ import { SimplePool } from "nostr-tools";
 import { Event } from "nostr-tools/lib/types/core";
 import { Metadata } from "./types";
 import NotesList from "./Components/NotesList/NotesList";
+import HashtagsFilter from "./Components/HashtagsFilter/Hashtags";
 import "./App.scss";
 
 export const RELAYS = ["wss://nostr-pub.wellorder.net", "wss://relay.damus.io"];
@@ -11,6 +12,7 @@ const App = () => {
   const [pool, setPool] = useState<SimplePool | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [metadata, setMetadata] = useState<Record<string, Metadata>>({});
+  const [hashtags, setHashtags] = useState<string[]>([]);
   const metadataFetched = useRef<Record<string, boolean>>({});
 
   // setup relays pool
@@ -27,14 +29,15 @@ const App = () => {
   useEffect(() => {
     if (!pool) return;
 
+    setEvents([]);
+
     const sub = pool.subscribeMany(
       RELAYS,
       [
         {
           kinds: [1],
           limit: 100,
-          // example filter
-          // "#t": ["Nostr"],
+          "#t": hashtags.length > 0 ? hashtags : undefined,
         },
       ],
       {
@@ -48,7 +51,7 @@ const App = () => {
     );
 
     return () => {};
-  }, [pool]);
+  }, [pool, hashtags]);
 
   // get user data for events
   useEffect(() => {
@@ -96,6 +99,7 @@ const App = () => {
   return (
     <div id="app">
       <h2>App</h2>
+      <HashtagsFilter hashtags={hashtags} onChange={setHashtags} />
       <NotesList notes={removeLinks(events)} metadata={metadata} />
     </div>
   );
