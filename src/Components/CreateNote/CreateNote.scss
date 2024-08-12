@@ -1,0 +1,37 @@
+#create-note {
+  width: 100%;
+}
+
+#create-note .title {
+  text-align: left;
+}
+
+#create-note .input {
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: #555555;
+  border-radius: 7px;
+  border: none;
+  padding: 10px 8px;
+  color: white;
+  font-family: inherit;
+}
+
+#create-note .input:focus {
+  outline: 1px solid white;
+}
+
+#create-note .button-container {
+  display: grid;
+  justify-items: end;
+  margin-bottom: 20px;
+}
+
+#create-note .button-container .button {
+  border-radius: 5px;
+  padding: 7px 20px;
+  border: none;
+  background-color: #b042ff;
+  color: white;
+  cursor: pointer;
+}

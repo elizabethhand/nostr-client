@@ -58,7 +58,23 @@ const CreateNote = ({ pool }: Props) => {
       console.error(error);
     }
   };
-  return <></>;
+  return (
+    <div id="create-note">
+      <h2 className="title"> Whats On Your Mind??</h2>
+      <form onSubmit={onSubmit}>
+        <textarea
+          placeholder="Write your note here..."
+          className="input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          rows={6}
+        />
+        <div className="button-container">
+          <button className="button">Publish</button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default CreateNote;

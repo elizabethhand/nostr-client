@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { SimplePool } from "nostr-tools";
-import { Event } from "nostr-tools/lib/types/core";
+import { SimplePool, Event } from "nostr-tools";
 import { Metadata } from "./types";
 import NotesList from "./Components/NotesList/NotesList";
 import HashtagsFilter from "./Components/HashtagsFilter/Hashtags";
+import CreateNote from "./Components/CreateNote/CreateNote";
 import "./App.scss";
 
 export const RELAYS = ["wss://nostr-pub.wellorder.net", "wss://relay.damus.io"];
@@ -99,6 +99,7 @@ const App = () => {
   return (
     <div id="app">
       <h2>App</h2>
+      <CreateNote pool={pool} />
       <HashtagsFilter hashtags={hashtags} onChange={setHashtags} />
       <NotesList notes={removeLinks(events)} metadata={metadata} />
     </div>
