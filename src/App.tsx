@@ -96,7 +96,7 @@ const App = () => {
   return (
     <div id="app">
       <h2>App</h2>
-      <NotesList notes={removeLinks(events)} />
+      <NotesList notes={removeLinks(events)} metadata={metadata} />
     </div>
   );
 };

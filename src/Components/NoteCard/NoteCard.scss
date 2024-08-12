@@ -8,6 +8,31 @@
   margin-bottom: 15px;
 }
 
+#note-card .card-metadata {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  grid-gap: 10px;
+}
+
+#note-card .card-metadata .left {
+  display: grid;
+  place-items: center;
+}
+
+#note-card .card-metadata .image {
+  height: 28px;
+  border-radius: 20px;
+}
+
+#note-card .card-metadata .username {
+  font-weight: bold;
+}
+
+#note-card .card-metadata .date {
+  font-size: 13px;
+}
+
 #note-card .tag-container {
   display: flex;
   flex-wrap: wrap;
